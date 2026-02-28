@@ -1,4 +1,11 @@
-import type { CaptureData } from '../../extension/src/utils/exportJson';
+export interface CaptureData {
+  id: string;
+  version: '1.0';
+  timestamp: string;
+  url: string;
+  viewport: { width: number; height: number };
+  element: Record<string, unknown>;
+}
 
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;

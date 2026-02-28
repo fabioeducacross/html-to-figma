@@ -1,0 +1,9 @@
+{
+    "name": "HTML-to-Figma Converter",
+    "id": "html-to-figma-converter-local",
+    "api": "1.0.0",
+    "main": "dist/code.js",
+    "editorType": [
+        "figma"
+    ]
+}

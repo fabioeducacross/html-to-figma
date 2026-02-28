@@ -14,8 +14,8 @@ Veja a documentação completa em `/docs`:
 ## 🚀 Quick Start
 
 ```bash
-# Instalar dependências
-npm install
+# Configurar projeto (root + extension + plugin)
+npm run setup
 
 # Rodar testes
 npm test

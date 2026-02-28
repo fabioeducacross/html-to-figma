@@ -97,6 +97,11 @@
    - Prompts prontos para Copilot, Claude e Codex
    - Tarefas foco da Fase 2 (SVG, A11y, Shadow DOM, viewport, gradientes)
 
+### 18. **PESQUISA_SKILLS_VERCEL_CLAUDE_CODEX_GITHUB_2026-02-28.md** 🤖 SKILLS E AGENTES
+   - Pesquisa comparativa Vercel, Claude, Codex e GitHub
+   - Skills recomendadas para este projeto
+   - Plano de adoção em 7 dias
+
 ---
 
 ## 🎯 Onde Começar
