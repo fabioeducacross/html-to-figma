@@ -1,3 +1,6 @@
+/** Maximum allowed size for a capture JSON (2 MB). */
+export const MAX_JSON_BYTES = 2 * 1024 * 1024;
+
 /** Bounding box of a captured element. */
 export interface BoundingBox {
   x: number;
@@ -90,12 +93,23 @@ export function generateCaptureJSON(_sanitizedHTML: string, element: Element): C
 
 /**
  * Exports a CaptureData object as a JSON string.
+ * Throws if the serialized output exceeds MAX_JSON_BYTES (2 MB).
  *
  * @param data - The capture data to export.
  * @returns A formatted JSON string.
+ * @throws Error if the JSON exceeds the size limit.
  */
 export function exportAsJSON(data: CaptureData): string {
-  return JSON.stringify(data, null, 2);
+  const json = JSON.stringify(data, null, 2);
+  const bytes = new TextEncoder().encode(json).length;
+  if (bytes > MAX_JSON_BYTES) {
+    throw new Error(
+      `O JSON gerado tem ${(bytes / 1024 / 1024).toFixed(2)} MB, ` +
+        `acima do limite de ${MAX_JSON_BYTES / 1024 / 1024} MB. ` +
+        'Selecione um componente menor ou menos elementos.'
+    );
+  }
+  return json;
 }
 
 /**

@@ -7,4 +7,4 @@ export {
   parseOpacity,
 } from './parser/styleMapper';
 export { FONT_FALLBACK_MAP, resolveFontName } from './utils/fontFallback';
-export { renderInChunks } from './utils/rendering';
+export { renderInChunks, assertNodeLimit, MAX_RENDER_NODES } from './utils/rendering';

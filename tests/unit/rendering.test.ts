@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { renderInChunks } from '../../src/plugin/src/utils/rendering';
+import { renderInChunks, assertNodeLimit, MAX_RENDER_NODES } from '../../src/plugin/src/utils/rendering';
 
 // Use fake timers so setTimeout resolves instantly in tests
 vi.useFakeTimers();
@@ -48,5 +48,24 @@ describe('renderInChunks', () => {
     // 120 items / 50 per chunk = 3 chunks
     expect(chunks.length).toBe(3);
     expect(renderFn).toHaveBeenCalledTimes(120);
+  });
+});
+
+describe('assertNodeLimit', () => {
+  it('does not throw for count at the limit', () => {
+    expect(() => assertNodeLimit(MAX_RENDER_NODES)).not.toThrow();
+  });
+
+  it('does not throw for count below the limit', () => {
+    expect(() => assertNodeLimit(1)).not.toThrow();
+    expect(() => assertNodeLimit(50)).not.toThrow();
+  });
+
+  it('throws for count above MAX_RENDER_NODES', () => {
+    expect(() => assertNodeLimit(MAX_RENDER_NODES + 1)).toThrow(/limite/);
+  });
+
+  it('MAX_RENDER_NODES is 100', () => {
+    expect(MAX_RENDER_NODES).toBe(100);
   });
 });

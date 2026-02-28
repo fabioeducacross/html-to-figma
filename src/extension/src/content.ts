@@ -5,7 +5,8 @@
 
 import { sanitizeElement } from './utils/domPurify';
 import { saveCapture } from './utils/storage';
-import { generateCaptureJSON, type CaptureData } from './utils/exportJson';
+import { generateCaptureJSON, exportAsJSON, type CaptureData } from './utils/exportJson';
+import { scanImages } from './utils/imageHandler';
 
 let isPickerActive = false;
 let overlay: HTMLDivElement | null = null;
@@ -37,6 +38,21 @@ function positionOverlay(target: Element): void {
   overlay.style.height = `${rect.height}px`;
 }
 
+/** Returns true if the element uses Shadow DOM. */
+function hasShadowDOM(target: Element): boolean {
+  return target.shadowRoot !== null;
+}
+
+/** Reports capture progress to the popup. */
+function reportProgress(progress: number): void {
+  chrome.runtime.sendMessage({ type: 'CAPTURE_PROGRESS', progress });
+}
+
+/** Reports a capture error to the popup. */
+function reportError(error: string): void {
+  chrome.runtime.sendMessage({ type: 'CAPTURE_ERROR', error });
+}
+
 /** Handles mouseover: highlight the element under the cursor. */
 function onMouseOver(event: MouseEvent): void {
   if (!isPickerActive) return;
@@ -54,11 +70,47 @@ async function onClick(event: MouseEvent): Promise<void> {
   const target = event.target as Element;
   if (target.id === '__html2figma_overlay__') return;
 
-  const sanitized = sanitizeElement(target);
-  const captureData: CaptureData = generateCaptureJSON(sanitized, target);
-  await saveCapture(captureData);
+  // Warn about Shadow DOM
+  if (hasShadowDOM(target)) {
+    reportError(
+      'Este elemento usa Shadow DOM (Web Component). ' +
+        'O conteúdo interno não será capturado. ' +
+        'Apenas o elemento host será incluído.'
+    );
+  }
 
-  chrome.runtime.sendMessage({ type: 'CAPTURE_COMPLETE', data: captureData });
+  reportProgress(10);
+
+  try {
+    const sanitized = sanitizeElement(target);
+    reportProgress(40);
+
+    const captureData: CaptureData = generateCaptureJSON(sanitized, target);
+    reportProgress(70);
+
+    // Scan images and attach CORS warnings to the capture metadata
+    const images = scanImages(target);
+    const corsIssues = images.filter((img) => img.status === 'CORS_ISSUE');
+    if (corsIssues.length > 0) {
+      const warnings = corsIssues.map((img) => img.src).join(', ');
+      chrome.runtime.sendMessage({
+        type: 'CAPTURE_WARNING',
+        warning: `${corsIssues.length} imagem(ns) com possível problema de CORS: ${warnings}`,
+      });
+    }
+
+    // Enforce JSON size limit (throws if > 2 MB)
+    exportAsJSON(captureData);
+    reportProgress(85);
+
+    await saveCapture(captureData);
+    reportProgress(100);
+
+    chrome.runtime.sendMessage({ type: 'CAPTURE_COMPLETE', data: captureData });
+  } catch (err) {
+    reportError(err instanceof Error ? err.message : 'Erro desconhecido ao capturar.');
+  }
+
   deactivatePicker();
 }
 

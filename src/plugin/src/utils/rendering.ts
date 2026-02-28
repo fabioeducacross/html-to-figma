@@ -1,3 +1,6 @@
+/** Maximum number of nodes the plugin will render (performance guard). */
+export const MAX_RENDER_NODES = 100;
+
 const CHUNK_SIZE = 50;
 
 /**
@@ -39,4 +42,19 @@ export function renderInChunks<T>(
       processChunk();
     }
   });
+}
+
+/**
+ * Enforces the node limit. Throws if the item count exceeds MAX_RENDER_NODES.
+ *
+ * @param count - The number of nodes to be rendered.
+ * @throws Error if count exceeds MAX_RENDER_NODES.
+ */
+export function assertNodeLimit(count: number): void {
+  if (count > MAX_RENDER_NODES) {
+    throw new Error(
+      `O componente contém ${count} elementos, acima do limite de ` +
+        `${MAX_RENDER_NODES}. Use o modo Lightweight ou selecione um componente menor.`
+    );
+  }
 }
