@@ -70,6 +70,12 @@
    - Siglas e abreviações
    - Referências
 
+### 12. **PRD_PROGRESS_REPORT.md** 📊 STATUS ATUAL
+   - Comparação PRD v3.2 vs implementação real
+   - Percentual de conclusão por área
+   - Lista de itens faltantes
+   - Próximos passos recomendados
+
 ---
 
 ## 🎯 Onde Começar
