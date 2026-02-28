@@ -60,3 +60,23 @@ export function parseOpacity(value: string): number {
   const n = parseFloat(value);
   return isNaN(n) ? 1 : Math.min(1, Math.max(0, n));
 }
+
+/**
+ * Determines whether a captured element is an inline SVG.
+ * Used by the plugin renderer to preserve SVG markup (Fase 2 — SVG passthrough).
+ */
+export function isSvgElement(tagName: string): boolean {
+  return tagName.toLowerCase() === 'svg';
+}
+
+/**
+ * Returns a safe Figma layer name from ARIA label, falling back to the tag name.
+ * Enables meaningful layer names for accessible components (Fase 2 — A11y).
+ */
+export function getAccessibleName(
+  tagName: string,
+  ariaLabel?: string
+): string {
+  if (ariaLabel && ariaLabel.trim()) return ariaLabel.trim();
+  return tagName;
+}

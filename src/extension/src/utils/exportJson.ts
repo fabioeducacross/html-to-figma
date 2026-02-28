@@ -9,6 +9,14 @@ export interface BoundingBox {
   height: number;
 }
 
+/** ARIA/accessibility attributes captured from an element. */
+export interface AccessibilityData {
+  role?: string;
+  label?: string;
+  description?: string;
+  hidden?: boolean;
+}
+
 /** Captured element data including styles, children, and pseudo-elements. */
 export interface CaptureElement {
   id: string;
@@ -17,6 +25,10 @@ export interface CaptureElement {
   pseudo: { before: Record<string, string>; after: Record<string, string> };
   children: CaptureElement[];
   boundingBox: BoundingBox;
+  /** Inline SVG source, present only when tagName === 'svg'. */
+  svgContent?: string;
+  /** Accessibility attributes (ARIA + role). */
+  accessibility?: AccessibilityData;
 }
 
 /** Full capture data with metadata. */
@@ -52,9 +64,28 @@ function capturePseudoStyles(
   return styles;
 }
 
+/** Captures ARIA and accessibility attributes from an element. */
+function captureAccessibility(element: Element): AccessibilityData | undefined {
+  const role = element.getAttribute('role') ?? undefined;
+  const label =
+    element.getAttribute('aria-label') ??
+    element.getAttribute('aria-labelledby') ??
+    undefined;
+  const description = element.getAttribute('aria-describedby') ?? undefined;
+  const hiddenAttr = element.getAttribute('aria-hidden');
+  const hidden = hiddenAttr === 'true' ? true : undefined;
+
+  if (role === undefined && label === undefined && description === undefined && hidden === undefined) {
+    return undefined;
+  }
+  return { role, label, description, hidden };
+}
+
 /** Recursively builds the element tree. */
 function buildElementTree(element: Element): CaptureElement {
   const rect = element.getBoundingClientRect();
+  const isSvg = element.tagName.toLowerCase() === 'svg';
+  const a11y = captureAccessibility(element);
   return {
     id: element.id || '',
     tagName: element.tagName.toLowerCase(),
@@ -63,13 +94,17 @@ function buildElementTree(element: Element): CaptureElement {
       before: capturePseudoStyles(element, '::before'),
       after: capturePseudoStyles(element, '::after'),
     },
-    children: Array.from(element.children).map(buildElementTree),
+    children: isSvg ? [] : Array.from(element.children).map(buildElementTree),
     boundingBox: {
       x: rect.x,
       y: rect.y,
       width: rect.width,
       height: rect.height,
     },
+    // Capture full SVG markup for inline SVG elements (Fase 2 — SVG passthrough)
+    ...(isSvg ? { svgContent: element.outerHTML } : {}),
+    // Capture ARIA/accessibility attributes when present (Fase 2 — A11y)
+    ...(a11y !== undefined ? { accessibility: a11y } : {}),
   };
 }
 

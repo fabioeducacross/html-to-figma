@@ -5,6 +5,8 @@ import {
   mapLayoutMode,
   parseSpacing,
   parseOpacity,
+  isSvgElement,
+  getAccessibleName,
 } from '../../src/plugin/src/parser/styleMapper';
 
 describe('parseColor', () => {
@@ -94,5 +96,30 @@ describe('parseOpacity', () => {
 
   it('returns 1 for NaN', () => {
     expect(parseOpacity('none')).toBe(1);
+  });
+});
+
+describe('isSvgElement (Fase 2 — SVG passthrough)', () => {
+  it('returns true for svg tag', () => {
+    expect(isSvgElement('svg')).toBe(true);
+    expect(isSvgElement('SVG')).toBe(true);
+  });
+
+  it('returns false for non-svg tags', () => {
+    expect(isSvgElement('div')).toBe(false);
+    expect(isSvgElement('img')).toBe(false);
+    expect(isSvgElement('span')).toBe(false);
+  });
+});
+
+describe('getAccessibleName (Fase 2 — A11y layer names)', () => {
+  it('returns aria-label when present', () => {
+    expect(getAccessibleName('button', 'Close dialog')).toBe('Close dialog');
+  });
+
+  it('falls back to tagName when aria-label is absent', () => {
+    expect(getAccessibleName('button')).toBe('button');
+    expect(getAccessibleName('div', '')).toBe('div');
+    expect(getAccessibleName('section', '   ')).toBe('section');
   });
 });
