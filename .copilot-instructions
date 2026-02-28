@@ -1,0 +1,62 @@
+# GitHub Copilot Instructions
+
+## Projeto: HTML-to-Figma Converter (Refore Clone)
+
+### Contexto
+Este é um projeto de conversão de HTML para Figma com foco em segurança, performance e documentação.
+
+### Stack Técnico
+- **Frontend:** React + TypeScript + TailwindCSS
+- **Extension:** Plasmo (Chrome Extension Framework)
+- **Plugin:** Figma Plugin API
+- **Segurança:** DOMPurify, CSP, Content Script Isolation
+- **Testes:** Vitest, Testing Library
+
+### Padrões de Código
+1. **TypeScript Strict:** Sempre usar tipos explícitos
+2. **Segurança:** Sanitizar entrada com DOMPurify
+3. **Performance:** Usar chunks de 50 nós
+4. **Testes:** Cobertura mínima 80%
+5. **Documentação:** JSDoc para funções públicas
+
+### Convenções de Commit
+- `feat:` Nova funcionalidade
+- `fix:` Correção de bug
+- `docs:` Documentação
+- `test:` Testes
+- `refactor:` Refatoração
+- `perf:` Performance
+- `security:` Segurança
+
+### Exemplo de Commit
+```
+feat(extension): add DOMPurify sanitization
+
+- Implement DOMPurify for HTML sanitization
+- Add tests for XSS payloads
+- Update SECURITY.md with implementation details
+
+Closes #123
+```
+
+### Instruções para Copilot
+1. Sempre adicionar tipos TypeScript
+2. Sempre adicionar comentários para lógica complexa
+3. Sempre adicionar testes para novas funcionalidades
+4. Sempre atualizar documentação
+5. Sempre considerar segurança
+6. Sempre considerar performance
+
+### Estrutura de Pastas
+- `/docs` - Documentação
+- `/src/extension` - Chrome Extension
+- `/src/plugin` - Figma Plugin
+- `/tests` - Testes
+- `/prototypes` - Prototipos de validação
+- `/scripts` - Scripts de automação
+
+### Próximas Prioridades
+1. Validar Figma API performance (Fase 1)
+2. Implementar DOMPurify (Fase 1)
+3. Testar CORS (Fase 1)
+4. Fazer security audit (Fase 1)

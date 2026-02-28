@@ -1,0 +1,34 @@
+{
+  "name": "html-to-figma",
+  "version": "0.1.0",
+  "description": "HTML-to-Figma Converter - Refore Clone",
+  "private": true,
+  "license": "MIT",
+  "author": "Seu Nome",
+  "scripts": {
+    "setup": "npm install && npm run build",
+    "dev": "npm run dev:extension & npm run dev:plugin",
+    "dev:extension": "cd src/extension && npm run dev",
+    "dev:plugin": "cd src/plugin && npm run dev",
+    "build": "npm run build:extension && npm run build:plugin",
+    "build:extension": "cd src/extension && npm run build",
+    "build:plugin": "cd src/plugin && npm run build",
+    "test": "vitest",
+    "test:watch": "vitest --watch",
+    "test:coverage": "vitest --coverage",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write .",
+    "validate": "npm run lint && npm run test"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "dependencies": {
+    "dompurify": "^3.0.0"
+  }
+}

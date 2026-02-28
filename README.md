@@ -1,50 +1,51 @@
-# html-to-figma
+# HTML-to-Figma Converter (Refore Clone)
 
-Plugin do Figma para capturar/salvar HTML de sites (ou trechos de HTML) e levar esse conteúdo para dentro do Figma, facilitando referência visual, documentação e recriação de telas.
+Conversão de componentes HTML para Figma com foco em segurança, performance e documentação.
 
-## Objetivo
-Permitir que você cole uma URL ou um HTML e gere uma representação dentro do Figma, mantendo o fluxo de trabalho de design mais rápido ao importar conteúdos já existentes.
+## 📚 Documentação
 
-## Principais recursos
-- Importar HTML a partir de uma **URL** (site) ou **código HTML**
-- Converter estrutura básica (ex.: textos, imagens e blocos) em elementos no Figma
-- Criar frames/páginas automaticamente para organizar o conteúdo importado
+Veja a documentação completa em `/docs`:
 
-## Como usar
-1. No Figma, vá em **Plugins → Development → Import plugin from manifest...**
-2. Selecione o `manifest.json` deste repositório
-3. Execute o plugin em **Plugins → Development → html-to-figma**
-4. Informe a **URL** do site ou cole o **HTML**
-5. Clique em **Importar/Converter** e aguarde a criação dos elementos
+- **[PRD_v3.3.md](./docs/PRD_v3.3.md)** - Product Requirements Document
+- **[VALIDATION_PLAN.md](./docs/VALIDATION_PLAN.md)** - Plano de validação
+- **[ARCHITECTURE.md](./docs/ARCHITECTURE.md)** - Arquitetura técnica
+- **[SECURITY_MODEL.md](./docs/SECURITY_MODEL.md)** - Modelo de segurança
 
-## Requisitos
-- Figma Desktop (recomendado para desenvolvimento)
-- Permissões de rede podem ser necessárias para buscar HTML via URL (dependendo da implementação)
+## 🚀 Quick Start
 
-## Desenvolvimento
-> Ajuste conforme a estrutura real do projeto (scripts, build, etc.)
+```bash
+# Instalar dependências
+npm install
 
-1. Clone o repositório:
-   - `git clone https://github.com/fabioeducacross/html-to-figma.git`
-2. Abra o projeto e instale dependências (se existir):
-   - `npm install` / `pnpm install` / `yarn`
-3. Rode o build (se existir):
-   - `npm run build`
-4. Aponte o `manifest.json` no Figma conforme a seção **Como usar**.
+# Rodar testes
+npm test
 
-## Limitações / Observações
-- Nem todo HTML/CSS é convertível 1:1 para nós do Figma.
-- Sites com conteúdo dinâmico podem exigir ajustes (ex.: carregamento via JS).
-- A fidelidade depende das regras de conversão implementadas no plugin.
+# Build
+npm run build
+```
 
-## Roadmap (ideias)
-- Melhor suporte a CSS (tipografia, espaçamento, cores)
-- Importação de assets com cache
-- Modo “selecionar elemento”/importar apenas uma seção da página
-- Exportar tokens/estilos para Figma (cores e textos)
+## 📁 Estrutura do Projeto
 
-## Contribuindo
-Pull requests são bem-vindos. Abra uma issue descrevendo o problema/ideia antes, se possível.
+```
+├── docs/              # Documentação
+├── src/
+│   ├── extension/     # Chrome Extension
+│   └── plugin/        # Figma Plugin
+├── tests/             # Testes
+├── prototypes/        # Prototipos de validação
+└── scripts/           # Scripts de automação
+```
 
-## Licença
-Defina aqui a licença do projeto (ex.: MIT). Se ainda não houver, adicione um arquivo `LICENSE`.
+## 📊 Status
+
+- PRD: ✅ Completo (v3.3)
+- Validação: ⏳ Planejado
+- Desenvolvimento: 🔴 Não iniciado
+
+## 📝 Licença
+
+MIT
+
+## 👤 Autor
+
+Criado em 2026-02-28 10:27:28
