@@ -24,18 +24,27 @@ interface CaptureData {
 
 interface CaptureElement {
   id: string;                            // valor do atributo id (ou "")
-  tagName: string;                       // tag em minúsculas — "div", "button"
+  tagName: string;                       // tag em minúsculas — "div", "button", "svg"
   styles: Record<string, string>;        // estilos computados (todos os props CSS)
   pseudo: {
     before: Record<string, string>;      // getComputedStyle(el, '::before')
     after: Record<string, string>;       // getComputedStyle(el, '::after')
   };
-  children: CaptureElement[];            // filhos diretos, recursivo
+  children: CaptureElement[];            // filhos diretos, recursivo (vazio para SVG)
   boundingBox: {
     x: number;         // getBoundingClientRect().x
     y: number;         // getBoundingClientRect().y
     width: number;     // getBoundingClientRect().width
     height: number;    // getBoundingClientRect().height
+  };
+  /** Inline SVG markup — presente apenas quando tagName === 'svg' (Fase 2). */
+  svgContent?: string;
+  /** Atributos ARIA/acessibilidade — presente quando ao menos um atributo existe (Fase 2). */
+  accessibility?: {
+    role?: string;         // aria-role
+    label?: string;        // aria-label | aria-labelledby
+    description?: string;  // aria-describedby
+    hidden?: boolean;      // aria-hidden === 'true'
   };
 }
 ```
