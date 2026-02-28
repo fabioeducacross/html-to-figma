@@ -93,6 +93,10 @@
    - Tabela de substituição web font → Figma
    - Como adicionar novas fontes
 
+### 17. **PHASE_2_AGENT_PROMPTS.md** 🤖 PROMPTS PARA AGENTES
+   - Prompts prontos para Copilot, Claude e Codex
+   - Tarefas foco da Fase 2 (SVG, A11y, Shadow DOM, viewport, gradientes)
+
 ---
 
 ## 🎯 Onde Começar
