@@ -22,6 +22,42 @@ describe('validateCaptureData', () => {
     expect(validateCaptureData(validCapture)).toBe(true);
   });
 
+  it('returns true for svg element with valid svgContent', () => {
+    const svgCapture = {
+      ...validCapture,
+      element: {
+        ...validCapture.element,
+        tagName: 'svg',
+        svgContent: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0h10v10H0z"/></svg>',
+      },
+    };
+    expect(validateCaptureData(svgCapture)).toBe(true);
+  });
+
+  it('returns false when svgContent is not a string', () => {
+    const invalidSvg = {
+      ...validCapture,
+      element: {
+        ...validCapture.element,
+        tagName: 'svg',
+        svgContent: 123,
+      },
+    };
+    expect(validateCaptureData(invalidSvg)).toBe(false);
+  });
+
+  it('returns false when svgContent exists on non-svg element', () => {
+    const invalidTag = {
+      ...validCapture,
+      element: {
+        ...validCapture.element,
+        tagName: 'div',
+        svgContent: '<svg></svg>',
+      },
+    };
+    expect(validateCaptureData(invalidTag)).toBe(false);
+  });
+
   it('returns false for null', () => {
     expect(validateCaptureData(null)).toBe(false);
   });

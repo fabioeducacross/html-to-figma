@@ -55,4 +55,32 @@ describe('Extension → JSON → Plugin integration', () => {
     expect(parsed.element.styles['background-color']).toBe('#0075ca');
     expect(parsed.element.boundingBox.width).toBe(150);
   });
+
+  it('svg capture with inline markup is accepted by parser and validator', () => {
+    const svgCapture = {
+      ...validCapture,
+      element: {
+        ...validCapture.element,
+        tagName: 'svg',
+        children: [],
+        svgContent: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0h10v10H0z"/></svg>',
+      },
+    };
+    const parsed = parseJSON(JSON.stringify(svgCapture));
+    expect(parsed.element.tagName).toBe('svg');
+    expect(parsed.element.svgContent).toContain('<svg');
+    expect(() => validateImportData(svgCapture)).not.toThrow();
+  });
+
+  it('svgContent on non-svg tag is rejected by validator', () => {
+    const invalid = {
+      ...validCapture,
+      element: {
+        ...validCapture.element,
+        tagName: 'div',
+        svgContent: '<svg></svg>',
+      },
+    };
+    expect(() => validateImportData(invalid)).toThrow('element.svgContent');
+  });
 });

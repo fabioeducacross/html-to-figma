@@ -26,6 +26,19 @@ export function getValidationErrors(data: unknown): string[] {
   if (typeof d['element'] !== 'object' || d['element'] === null)
     errors.push('Campo "element" deve ser um objeto.');
 
+  const element = d['element'];
+  if (typeof element === 'object' && element !== null) {
+    const el = element as Record<string, unknown>;
+    if (el['svgContent'] !== undefined) {
+      if (typeof el['svgContent'] !== 'string') {
+        errors.push('Campo "element.svgContent" deve ser uma string.');
+      }
+      if (typeof el['tagName'] === 'string' && el['tagName'].toLowerCase() !== 'svg') {
+        errors.push('Campo "element.svgContent" só é permitido quando tagName === "svg".');
+      }
+    }
+  }
+
   return errors;
 }
 

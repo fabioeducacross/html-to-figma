@@ -1,5 +1,10 @@
 import { describe, it, expect, vi } from 'vitest';
-import { renderInChunks, assertNodeLimit, MAX_RENDER_NODES } from '../../src/plugin/src/utils/rendering';
+import {
+  renderInChunks,
+  assertNodeLimit,
+  MAX_RENDER_NODES,
+  tryImportInlineSvg,
+} from '../../src/plugin/src/utils/rendering';
 
 // Use fake timers so setTimeout resolves instantly in tests
 vi.useFakeTimers();
@@ -67,5 +72,66 @@ describe('assertNodeLimit', () => {
 
   it('MAX_RENDER_NODES is 100', () => {
     expect(MAX_RENDER_NODES).toBe(100);
+  });
+});
+
+describe('tryImportInlineSvg', () => {
+  it('imports valid inline SVG using importer', async () => {
+    const importedNode = { id: 'vector-1' };
+    const importer = { importSvgAsync: vi.fn().mockResolvedValue(importedNode) };
+
+    const result = await tryImportInlineSvg(
+      {
+        tagName: 'svg',
+        svgContent: '<svg xmlns="http://www.w3.org/2000/svg"><path d="M0 0h10v10H0z"/></svg>',
+      },
+      importer
+    );
+
+    expect(importer.importSvgAsync).toHaveBeenCalledTimes(1);
+    expect(result).toEqual({ node: importedNode });
+  });
+
+  it('returns null node for non-svg elements', async () => {
+    const importer = { importSvgAsync: vi.fn() };
+    const result = await tryImportInlineSvg(
+      {
+        tagName: 'div',
+        svgContent: '<svg xmlns="http://www.w3.org/2000/svg"></svg>',
+      },
+      importer
+    );
+
+    expect(importer.importSvgAsync).not.toHaveBeenCalled();
+    expect(result).toEqual({ node: null });
+  });
+
+  it('returns validation error for unsafe SVG content', async () => {
+    const importer = { importSvgAsync: vi.fn() };
+    const result = await tryImportInlineSvg(
+      {
+        tagName: 'svg',
+        svgContent: '<svg onload="alert(1)"></svg>',
+      },
+      importer
+    );
+
+    expect(importer.importSvgAsync).not.toHaveBeenCalled();
+    expect(result.node).toBeNull();
+    expect(result.error).toContain('inseguro');
+  });
+
+  it('returns import error when importer throws', async () => {
+    const importer = { importSvgAsync: vi.fn().mockRejectedValue(new Error('import failed')) };
+    const result = await tryImportInlineSvg(
+      {
+        tagName: 'svg',
+        svgContent: '<svg xmlns="http://www.w3.org/2000/svg"></svg>',
+      },
+      importer
+    );
+
+    expect(result.node).toBeNull();
+    expect(result.error).toContain('import failed');
   });
 });
