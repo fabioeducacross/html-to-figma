@@ -46,3 +46,58 @@ Prioritize these items in order:
 - `npm run test` passes
 - behavior change covered by tests
 - related docs updated when needed
+
+---
+
+## Software Engineering skill
+When asked to improve code quality, fix bugs, add tests, refactor, or harden security:
+
+1. Identify the target file from the code map above.
+2. Apply the **smallest correct change** — no unrelated edits.
+3. Common concern → file mapping:
+   | Concern | File |
+   |---|---|
+   | XSS / injection | `src/extension/src/utils/domPurify.ts` |
+   | JSON schema | `src/plugin/src/parser/jsonParser.ts` |
+   | CSS → Figma gap | `src/plugin/src/parser/styleMapper.ts` |
+   | Rendering perf | `src/plugin/src/utils/rendering.ts` |
+   | Type safety | any file with `any` or missing return types |
+   | Test coverage | `tests/unit/` or `tests/security/` |
+4. Run `npm run lint && npm run test` before finishing.
+5. Report: files changed, what was done, risks.
+
+---
+
+## Product Engineering skill
+When asked about feature scope, prioritisation, user flows, acceptance criteria, or roadmap:
+
+### Product context
+- **Users:** designers and front-end devs wanting Figma layers from live HTML
+- **Core value:** accurate, safe, fast conversion — no manual recreation
+- **Phase 1** = 100% complete (PoC ready); **Phase 2** = 8% (in progress)
+- Reference: `docs/PRD_PROGRESS_REPORT.md`, `docs/PHASE_2_AGENT_PROMPTS.md`
+
+### Prioritisation (RICE)
+Score = (Reach × Impact × Confidence) / Effort
+
+### Phase 2 priority order
+1. SVG → VectorNode ← highest accuracy impact
+2. A11y → layer names ← quick win (function already exists)
+3. Shadow DOM traversal ← unblocks modern component libraries
+4. Multi-viewport capture ← responsive design workflows
+5. CSS gradient mapping ← visual fidelity
+
+### Acceptance criteria format
+```
+Given [context]
+When [action]
+Then [expected outcome]
+And [constraints / limits]
+```
+
+### Answer format
+- **Recommendation** (1–2 sentences)
+- **Rationale**
+- **Acceptance criteria**
+- **Risks / open questions**
+- **Next action** (Phase 2, 3, or 4)
