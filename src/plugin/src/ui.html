@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>HTML-to-Figma Importer</title>
+    <style>
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        font-size: 12px;
+        color: #1e1e1e;
+        padding: 16px;
+        background: #fff;
+        width: 360px;
+      }
+      h1 { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+      textarea {
+        width: 100%;
+        height: 120px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 8px;
+        font-size: 11px;
+        font-family: 'Roboto Mono', monospace;
+        resize: vertical;
+        outline: none;
+        margin-bottom: 8px;
+      }
+      textarea:focus { border-color: #0075ca; }
+      #dropzone {
+        border: 2px dashed #ccc;
+        border-radius: 6px;
+        padding: 16px;
+        text-align: center;
+        color: #888;
+        cursor: pointer;
+        margin-bottom: 10px;
+        transition: border-color 0.15s, background 0.15s;
+      }
+      #dropzone.drag-over {
+        border-color: #0075ca;
+        background: #f0f8ff;
+        color: #0075ca;
+      }
+      #dropzone:hover { border-color: #0075ca; }
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+      .row label { display: flex; align-items: center; gap: 4px; cursor: pointer; }
+      #import-btn {
+        flex: 1;
+        background: #0075ca;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      #import-btn:hover { background: #005fa3; }
+      #progress-bar {
+        display: none;
+        height: 14px;
+        background: #eee;
+        border-radius: 7px;
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 8px;
+      }
+      #progress-fill {
+        height: 100%;
+        background: #0075ca;
+        width: 0%;
+        transition: width 0.2s ease;
+      }
+      #progress-label {
+        position: absolute;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 9px;
+        line-height: 14px;
+        color: #333;
+      }
+      #error-box {
+        display: none;
+        background: #fff0f0;
+        border: 1px solid #d73a4a;
+        border-radius: 4px;
+        padding: 8px;
+        color: #d73a4a;
+        font-size: 11px;
+        margin-bottom: 8px;
+      }
+      #report-box {
+        display: none;
+        background: #f6fff6;
+        border: 1px solid #2ea44f;
+        border-radius: 4px;
+        padding: 8px;
+        font-size: 11px;
+        line-height: 1.5;
+        max-height: 180px;
+        overflow-y: auto;
+      }
+      #report-box ul { padding-left: 16px; margin-top: 4px; }
+      #download-report-btn {
+        display: none;
+        width: 100%;
+        margin-top: 8px;
+        padding: 6px 12px;
+        background: #f6fff6;
+        border: 1px solid #2ea44f;
+        border-radius: 4px;
+        color: #2ea44f;
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        text-align: center;
+      }
+      #download-report-btn:hover { background: #e6f9e6; }
+    </style>
+  </head>
+  <body>
+    <h1>HTML-to-Figma — Importar</h1>
+
+    <textarea
+      id="json-input"
+      placeholder="Cole aqui o JSON gerado pela extensão Chrome…"
+    ></textarea>
+
+    <div id="dropzone">
+      📂 Arraste um arquivo .json aqui ou clique para selecionar
+    </div>
+
+    <div class="row">
+      <label>
+        <input type="checkbox" id="lightweight" />
+        Modo Lightweight (apenas estrutura)
+      </label>
+      <button id="import-btn">Importar</button>
+    </div>
+
+    <div id="progress-bar">
+      <div id="progress-fill"></div>
+      <span id="progress-label">0%</span>
+    </div>
+
+    <div id="error-box"></div>
+    <div id="report-box"></div>
+    <button id="download-report-btn" style="display:none;">⬇ Baixar Relatório (.json)</button>
+
+    <script src="ui.js"></script>
+  </body>
+</html>

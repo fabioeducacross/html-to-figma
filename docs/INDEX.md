@@ -70,6 +70,29 @@
    - Siglas e abreviações
    - Referências
 
+### 12. **PRD_PROGRESS_REPORT.md** 📊 STATUS ATUAL
+   - Comparação PRD v3.2 vs implementação real
+   - Percentual de conclusão por área
+   - Lista de itens faltantes
+   - Próximos passos recomendados
+
+### 13. **TROUBLESHOOTING.md** 🔧 PROBLEMAS COMUNS
+   - Diagnóstico de erros da extensão e plugin
+   - Soluções passo a passo
+
+### 14. **EDGE_CASES.md** 🧩 CASOS DE BORDA
+   - Comportamentos esperados em situações especiais
+   - Shadow DOM, CORS, gradientes, variáveis CSS
+
+### 15. **JSON_SCHEMA.md** 📋 SCHEMA DO JSON
+   - TypeScript interfaces completas
+   - Exemplos de JSON válido
+   - Campos obrigatórios e limites
+
+### 16. **FONT_FALLBACK_MAP.md** 🔤 MAPA DE FONTES
+   - Tabela de substituição web font → Figma
+   - Como adicionar novas fontes
+
 ---
 
 ## 🎯 Onde Começar

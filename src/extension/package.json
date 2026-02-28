@@ -1,0 +1,25 @@
+{
+  "name": "html-to-figma-extension",
+  "version": "0.1.0",
+  "description": "HTML-to-Figma Chrome Extension",
+  "private": true,
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "dompurify": "^3.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "^0.0.250",
+    "@types/dompurify": "^3.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "plasmo": "^0.85.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  }
+}
