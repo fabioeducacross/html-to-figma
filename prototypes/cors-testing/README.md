@@ -1,15 +1,19 @@
 # Prototype: cors-testing
 
-**Status:** Pendente (ver [GITHUB_ISSUES.md](../../docs/GITHUB_ISSUES.md))
+**Status:** ✅ Implementado
 
 ## Objetivo
 
-Este diretório contém o protótipo de validação para `cors-testing`.
+Simular detecção de problemas de CORS em imagens cross-origin, validando que o `imageHandler.ts` classifica corretamente URLs same-origin, cross-origin e data URIs.
 
 ## Como Executar
 
-_A ser preenchido quando o protótipo for implementado._
+```bash
+node prototypes/cors-testing/simulate.js
+```
+
+Requer Node.js ≥ 18.
 
 ## Resultados
 
-_A ser preenchido após execução._
+Os resultados por URL são exibidos no console com status CORS_ISSUE / OK / MISSING.

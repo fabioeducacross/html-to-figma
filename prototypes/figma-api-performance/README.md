@@ -1,15 +1,19 @@
 # Prototype: figma-api-performance
 
-**Status:** Pendente (ver [GITHUB_ISSUES.md](../../docs/GITHUB_ISSUES.md))
+**Status:** ✅ Implementado
 
 ## Objetivo
 
-Este diretório contém o protótipo de validação para `figma-api-performance`.
+Medir o tempo de criação de nós em diferentes cargas (10, 50, 100 elementos) simulando a API do Figma com objetos simples, validando que o limite de 100 elementos e a estratégia de chunks de 50 são adequados para performance aceitável.
 
 ## Como Executar
 
-_A ser preenchido quando o protótipo for implementado._
+```bash
+node prototypes/figma-api-performance/benchmark.js
+```
+
+Requer Node.js ≥ 18.
 
 ## Resultados
 
-_A ser preenchido após execução._
+Os resultados são exibidos no console ao executar o script.

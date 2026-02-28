@@ -27,6 +27,7 @@ const progressFill = document.getElementById('progress-fill') as HTMLDivElement;
 const progressLabel = document.getElementById('progress-label') as HTMLSpanElement;
 const errorBox = document.getElementById('error-box') as HTMLDivElement;
 const reportBox = document.getElementById('report-box') as HTMLDivElement;
+const downloadReportBtn = document.getElementById('download-report-btn') as HTMLButtonElement;
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -77,12 +78,14 @@ function renderReport(r: ImportReport): void {
   }
   reportBox.innerHTML = html;
   reportBox.style.display = 'block';
+  downloadReportBtn.style.display = 'block';
 }
 
 function loadJSON(jsonStr: string): void {
   clearError();
   report = null;
   reportBox.style.display = 'none';
+  downloadReportBtn.style.display = 'none';
 
   if (!jsonStr.trim()) {
     showError('Cole ou arraste um arquivo JSON de captura.');
@@ -106,8 +109,22 @@ function loadJSON(jsonStr: string): void {
 
 // ── Event listeners ───────────────────────────────────────────────────────────
 
-importBtn.addEventListener('click', () => {
+importBtn.addEventListener('click', (): void => {
   loadJSON(textarea.value);
+});
+
+// Download report as JSON file
+downloadReportBtn.addEventListener('click', (): void => {
+  if (!report) return;
+  const json = JSON.stringify(report, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+  a.download = `import-report-${timestamp}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
 });
 
 // Drag-and-drop support

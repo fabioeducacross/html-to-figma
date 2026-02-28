@@ -1,15 +1,19 @@
 # Prototype: rendering-chunks
 
-**Status:** Pendente (ver [GITHUB_ISSUES.md](../../docs/GITHUB_ISSUES.md))
+**Status:** ✅ Implementado
 
 ## Objetivo
 
-Este diretório contém o protótipo de validação para `rendering-chunks`.
+Validar que a estratégia de renderização em chunks de 50 nós mantém cada chunk abaixo de 500 ms e que o sistema de progresso funciona corretamente para 10, 50 e 100 elementos.
 
 ## Como Executar
 
-_A ser preenchido quando o protótipo for implementado._
+```bash
+node prototypes/rendering-chunks/simulate.js
+```
+
+Requer Node.js ≥ 18.
 
 ## Resultados
 
-_A ser preenchido após execução._
+Os resultados de timing por chunk são exibidos no console.

@@ -87,16 +87,37 @@ const Popup: React.FC = () => {
           <p style={{ color: '#666', fontSize: 12 }}>Nenhuma captura ainda.</p>
         ) : (
           <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {captures.map((c) => (
-              <li key={c.id} style={historyItemStyle}>
-                <span style={{ fontSize: 11, color: '#333' }}>
-                  {new URL(c.url).hostname}
-                </span>
-                <span style={{ fontSize: 10, color: '#888', marginLeft: 'auto' }}>
-                  {new Date(c.timestamp).toLocaleString('pt-BR')}
-                </span>
-              </li>
-            ))}
+            {captures.map((c) => {
+              const rawColor = (c.element?.styles?.['background-color'] as string | undefined) ?? '';
+              // Accept only rgb/rgba/hex colors to prevent CSS injection
+              const safeColor = /^(#[0-9a-f]{3,8}|rgba?\(\s*[\d.,\s]+\))$/i.test(rawColor.trim())
+                ? rawColor.trim()
+                : '#e8e8e8';
+              return (
+                <li key={c.id} style={historyItemStyle}>
+                  {/* Color thumbnail derived from element's background-color */}
+                  <div
+                    title={safeColor}
+                    style={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: 4,
+                      background: safeColor,
+                      border: '1px solid #ddd',
+                      flexShrink: 0,
+                    }}
+                  />
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ fontSize: 11, color: '#333', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                      {new URL(c.url).hostname}
+                    </div>
+                    <div style={{ fontSize: 10, color: '#888', marginTop: 2 }}>
+                      {c.element?.tagName ?? ''} — {new Date(c.timestamp).toLocaleString('pt-BR')}
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>

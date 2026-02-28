@@ -25,6 +25,8 @@ const XSS_PAYLOADS = [
   '&#60;script&#62;alert(1)&#60;/script&#62;',
   // Style-based
   '<div style="background:url(javascript:alert(1))">',
+  // CSS expression (IE-only, blocked defensively)
+  '<div style="width:expression(alert(1))">',
 ];
 
 describe('XSS sanitization', () => {
@@ -36,5 +38,7 @@ describe('XSS sanitization', () => {
     expect(result).not.toMatch(/<script/i);
     // No javascript: URLs should remain
     expect(result).not.toMatch(/javascript\s*:/i);
+    // No CSS expression() should remain (IE XSS vector)
+    expect(result).not.toMatch(/expression\s*\(/i);
   });
 });

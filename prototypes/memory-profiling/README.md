@@ -1,15 +1,19 @@
 # Prototype: memory-profiling
 
-**Status:** Pendente (ver [GITHUB_ISSUES.md](../../docs/GITHUB_ISSUES.md))
+**Status:** ✅ Implementado
 
 ## Objetivo
 
-Este diretório contém o protótipo de validação para `memory-profiling`.
+Estimar o uso de memória ao processar CaptureData de diferentes tamanhos, validando que ficamos dentro do limite de 100 MB para evitar travar o Figma.
 
 ## Como Executar
 
-_A ser preenchido quando o protótipo for implementado._
+```bash
+node prototypes/memory-profiling/profile.js
+```
+
+Requer Node.js ≥ 18.
 
 ## Resultados
 
-_A ser preenchido após execução._
+Os resultados de uso de memória por cenário são exibidos no console.

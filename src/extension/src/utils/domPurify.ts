@@ -29,7 +29,10 @@ export function sanitizeHTML(html: string): string {
     FORBID_ATTR: ['onerror', 'onload', 'onclick', 'onmouseover'],
   });
   // Post-process: strip javascript: URLs that may remain in style attributes
-  return sanitized.replace(/javascript\s*:/gi, '');
+  // Also strip CSS expression() — IE-only attack vector, but handled defensively
+  return sanitized
+    .replace(/javascript\s*:/gi, '')
+    .replace(/expression\s*\(/gi, '(');
 }
 
 /**

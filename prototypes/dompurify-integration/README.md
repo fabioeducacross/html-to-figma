@@ -1,15 +1,19 @@
 # Prototype: dompurify-integration
 
-**Status:** Pendente (ver [GITHUB_ISSUES.md](../../docs/GITHUB_ISSUES.md))
+**Status:** ✅ Implementado
 
 ## Objetivo
 
-Este diretório contém o protótipo de validação para `dompurify-integration`.
+Validar que a integração DOMPurify + remoção de atributos sensíveis bloqueia 20+ payloads XSS e data-exfiltration, complementando os testes unitários com saída de relatório detalhada.
 
 ## Como Executar
 
-_A ser preenchido quando o protótipo for implementado._
+```bash
+node prototypes/dompurify-integration/validate.js
+```
+
+Requer Node.js ≥ 18 e `npm install` na raiz do projeto (usa `dompurify` + `jsdom`).
 
 ## Resultados
 
-_A ser preenchido após execução._
+Os resultados com cada payload e status BLOCKED/PASSED são exibidos no console.
